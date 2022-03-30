@@ -18,7 +18,7 @@ public class RingSigner
         RandomNumberGenerator.Fill(hash2Key);
 
         _hash1Function = new HMACSHA256(hash1Key);
-        _hash2Function = new HMACSHA256(hash1Key);
+        _hash2Function = new HMACSHA256(hash2Key);
         _primeOrderGroup = primeOrderGroup;
     }
 
@@ -63,7 +63,7 @@ public class RingSigner
 
         BigInteger dividend = (u - signerPrivateKey * cVector[signerPublicKeyIndex]);
 
-        sVector[signerPublicKeyIndex] = dividend >= 0 ? dividend % _primeOrderGroup.SubgroupSize : _primeOrderGroup.Prime + (dividend % _primeOrderGroup.SubgroupSize);
+        sVector[signerPublicKeyIndex] = dividend >= 0 ? dividend % _primeOrderGroup.SubgroupSize : _primeOrderGroup.SubgroupSize + (dividend % _primeOrderGroup.SubgroupSize);
 
         return new Signature(cVector[0], sVector, yTilde);
     }
