@@ -8,18 +8,20 @@ public class RingSigner
     private readonly HashAlgorithm _hash1Function;
     private readonly HashAlgorithm _hash2Function;
     private readonly PrimeOrderGroup _primeOrderGroup;
+    private readonly IRandom _random;
 
-    public RingSigner(PrimeOrderGroup primeOrderGroup)
+    public RingSigner(PrimeOrderGroup primeOrderGroup, IRandom random)
     {
         byte[] hash1Key = new byte[64];
         byte[] hash2Key = new byte[64];
 
-        RandomNumberGenerator.Fill(hash1Key);
-        RandomNumberGenerator.Fill(hash2Key);
+        random.Fill(hash1Key);
+        random.Fill(hash2Key);
 
         _hash1Function = new HMACSHA256(hash1Key);
         _hash2Function = new HMACSHA256(hash2Key);
         _primeOrderGroup = primeOrderGroup;
+        _random = random;
     }
 
     public Signature Sign(byte[] message, BigInteger[] publicKeys, BigInteger signerPrivateKey, int signerPublicKeyIndex)
@@ -32,7 +34,7 @@ public class RingSigner
         BigInteger[] cVector = new BigInteger[publicKeys.Length];
         BigInteger[] sVector = new BigInteger[publicKeys.Length];
 
-        BigInteger u = BigIntegerRandom.GetRandomBigInteger(_primeOrderGroup.SubgroupSize);
+        BigInteger u = _random.GetRandomNumber(_primeOrderGroup.SubgroupSize);
 
         IList<byte[]> publicKeysBytes = publicKeys.Select(p => p.ToByteArray(true, true)).ToList();
 
@@ -45,7 +47,7 @@ public class RingSigner
 
         for (int i = (signerPublicKeyIndex + 1) % publicKeys.Length; i != signerPublicKeyIndex; i = (i + 1) % publicKeys.Length)
         {
-            sVector[i] = BigIntegerRandom.GetRandomBigInteger(_primeOrderGroup.SubgroupSize);
+            sVector[i] = _random.GetRandomNumber(_primeOrderGroup.SubgroupSize);
 
             BigInteger v1 = (BigInteger.ModPow(_primeOrderGroup.Generator, sVector[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], cVector[i], _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
@@ -109,6 +111,11 @@ public class RingSigner
                     zPrimePrimeVector[publicKeys.Length - 1].ToByteArray(true, true));
 
         return signature.C == hashed;
+    }
+
+    public bool SignedBySameSigner(Signature signature1, Signature signature2)
+    {
+        return signature1.Y == signature2.Y;
     }
 
     private BigInteger Hash1(IList<byte[]> publicKeysBytes, params byte[][] components)

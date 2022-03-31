@@ -10,7 +10,7 @@ public class KeyPairGeneratorTest
     public void GenerateKeyPair_ShouldGenerateKeyPair()
     {
         // Arrange
-        KeyPairGenerator keyPairGenerator = new(WellKnownPrimeOrderGroups.RFC5114_2_3_256);
+        KeyPairGenerator keyPairGenerator = new(WellKnownPrimeOrderGroups.RFC5114_2_3_256, new Random());
 
         // Act
         (BigInteger PrivateKey, BigInteger PublicKey) keyPair = keyPairGenerator.CreateKeyPair();
