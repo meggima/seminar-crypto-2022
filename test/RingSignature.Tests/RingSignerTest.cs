@@ -26,16 +26,16 @@ namespace RingSignature.Tests
         public void RingSignature_ShouldBeValid(int ringSize)
         {
             // Arrange
-            (BigInteger privateKey, BigInteger publicKey)[] keyPairs = CreateKeyPairs(ringSize);
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = CreateKeyPairs(ringSize);
+            BigInteger[] publicKeys = keyPairs.Select(k => k.PublicKey).ToArray();
 
-            byte[] message = new byte[100];
-            RandomNumberGenerator.Fill(message);
+            byte[] message = CreateMessage();
 
             RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
 
             // Act
-            Signature signature = ringSigner.Sign(message, keyPairs.Select(k => k.publicKey).ToArray(), keyPairs[0].privateKey, 0);
-            bool isValidSignature = ringSigner.Verify(message, signature, keyPairs.Select(k => k.publicKey).ToArray());
+            Signature signature = ringSigner.Sign(message, publicKeys, keyPairs[0].PrivateKey, 0);
+            bool isValidSignature = ringSigner.Verify(message, signature, publicKeys);
 
             // Assert
             isValidSignature.Should().BeTrue();
@@ -46,23 +46,44 @@ namespace RingSignature.Tests
         {
             // Arrange
             const int ringSize = 10;
-            (BigInteger privateKey, BigInteger publicKey)[] keyPairs = CreateKeyPairs(ringSize);
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = CreateKeyPairs(ringSize);
 
-            var otherKeyPair = _keyPairGenerator.CreateKeyPair();
+            (BigInteger PrivateKey, BigInteger PublicKey) otherKeyPair = _keyPairGenerator.CreateKeyPair();
 
-            byte[] message = new byte[100];
-            RandomNumberGenerator.Fill(message);
+            byte[] message = CreateMessage();
 
             RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
 
             // Act
-            Signature signature = ringSigner.Sign(message, keyPairs.Select(k => k.publicKey).ToArray(), keyPairs[0].privateKey, 0);
+            Signature signature = ringSigner.Sign(message, keyPairs.Select(k => k.PublicKey).ToArray(), keyPairs[0].PrivateKey, 0);
 
-            IEnumerable<BigInteger> publicKeysWithOtherMember = keyPairs.Select(k => k.publicKey)
+            IEnumerable<BigInteger> publicKeysWithOtherMember = keyPairs.Select(k => k.PublicKey)
                 .Take(ringSize - 1) // Remove last member
-                .Append(otherKeyPair.publicKey); // Add other member
+                .Append(otherKeyPair.PublicKey); // Add other member
 
             bool isValidSignature = ringSigner.Verify(message, signature, publicKeysWithOtherMember.ToArray());
+
+            // Assert
+            isValidSignature.Should().BeFalse();
+        }
+
+        [Fact]
+        public void RingSignature_ShouldNotBeValid_WhenRingMembersReordered()
+        {
+            // Arrange
+            const int ringSize = 10;
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = CreateKeyPairs(ringSize);
+
+            byte[] message = CreateMessage();
+
+            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+
+            // Act
+            Signature signature = ringSigner.Sign(message, keyPairs.Select(k => k.PublicKey).ToArray(), keyPairs[0].PrivateKey, 0);
+
+            IEnumerable<BigInteger> reversedPublicKeys = keyPairs.Select(k => k.PublicKey).Reverse();
+
+            bool isValidSignature = ringSigner.Verify(message, signature, reversedPublicKeys.ToArray());
 
             // Assert
             isValidSignature.Should().BeFalse();
@@ -72,20 +93,17 @@ namespace RingSignature.Tests
         public void SignedBySameSigner_ShouldBeTrue_WhenSignedBySameSigner()
         {
             // Arrange
-            (BigInteger privateKey, BigInteger publicKey)[] keyPairs = CreateKeyPairs(10);
-            BigInteger[] publicKeys = keyPairs.Select(k => k.publicKey).ToArray();
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = CreateKeyPairs(10);
+            BigInteger[] publicKeys = keyPairs.Select(k => k.PublicKey).ToArray();
 
-            byte[] message1 = new byte[100];
-            RandomNumberGenerator.Fill(message1);
-
-            byte[] message2 = new byte[100];
-            RandomNumberGenerator.Fill(message2);
+            byte[] message1 = CreateMessage();
+            byte[] message2 = CreateMessage();
 
             RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
 
 
-            Signature s1 = ringSigner.Sign(message1, publicKeys, keyPairs[0].privateKey, 0);
-            Signature s2 = ringSigner.Sign(message2, publicKeys, keyPairs[0].privateKey, 0);
+            Signature s1 = ringSigner.Sign(message1, publicKeys, keyPairs[0].PrivateKey, 0);
+            Signature s2 = ringSigner.Sign(message2, publicKeys, keyPairs[0].PrivateKey, 0);
 
             // Act
             bool isValidS1 = ringSigner.Verify(message1, s1, publicKeys);
@@ -102,20 +120,17 @@ namespace RingSignature.Tests
         public void SignedBySameSigner_ShouldBeFalse_WhenSignedByDifferentSigners()
         {
             // Arrange
-            (BigInteger privateKey, BigInteger publicKey)[] keyPairs = CreateKeyPairs(10);
-            BigInteger[] publicKeys = keyPairs.Select(k => k.publicKey).ToArray();
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = CreateKeyPairs(10);
+            BigInteger[] publicKeys = keyPairs.Select(k => k.PublicKey).ToArray();
 
-            byte[] message1 = new byte[100];
-            RandomNumberGenerator.Fill(message1);
-
-            byte[] message2 = new byte[100];
-            RandomNumberGenerator.Fill(message2);
+            byte[] message1 = CreateMessage();
+            byte[] message2 = CreateMessage();
 
             RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
 
 
-            Signature s1 = ringSigner.Sign(message1, publicKeys, keyPairs[0].privateKey, 0);
-            Signature s2 = ringSigner.Sign(message2, publicKeys, keyPairs[1].privateKey, 1); // Sign m2 with other signer
+            Signature s1 = ringSigner.Sign(message1, publicKeys, keyPairs[0].PrivateKey, 0);
+            Signature s2 = ringSigner.Sign(message2, publicKeys, keyPairs[1].PrivateKey, 1); // Sign m2 with other signer
 
             // Act
             bool isValidS1 = ringSigner.Verify(message1, s1, publicKeys);
@@ -128,9 +143,43 @@ namespace RingSignature.Tests
             sameSigner.Should().BeFalse();
         }
 
-        private (BigInteger privateKey, BigInteger publicKey)[] CreateKeyPairs(int ringSize)
+        [Fact]
+        public void SignedBySameSigner_ShouldBeFalse_WhenDifferentMembers()
         {
-            (BigInteger privateKey, BigInteger publicKey)[] keyPairs = new (BigInteger privateKey, BigInteger publicKey)[ringSize];
+            // Arrange
+            const int ringSize = 10;
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = CreateKeyPairs(ringSize);
+
+            (BigInteger PrivateKey, BigInteger PublicKey) otherKeyPair = _keyPairGenerator.CreateKeyPair();
+
+            byte[] message1 = CreateMessage();
+
+            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+
+            BigInteger[] publicKeys1 = keyPairs.Select(k => k.PublicKey).ToArray();
+            BigInteger[] publicKeys2 = keyPairs.Select(k => k.PublicKey)
+                .Take(ringSize - 1)
+                .Append(otherKeyPair.PublicKey)
+                .ToArray();
+
+            Signature s1 = ringSigner.Sign(message1, publicKeys1, keyPairs[0].PrivateKey, 0);
+            Signature s2 = ringSigner.Sign(message1, publicKeys2, keyPairs[0].PrivateKey, 0);
+
+            // Act
+            bool isValidS1 = ringSigner.Verify(message1, s1, publicKeys1);
+            bool isValidS2 = ringSigner.Verify(message1, s2, publicKeys2);
+            bool sameSigner = ringSigner.SignedBySameSigner(s1, s2);
+
+            // Assert
+            isValidS1.Should().BeTrue();
+            isValidS2.Should().BeTrue();
+            sameSigner.Should().BeFalse();
+
+        }
+
+        private (BigInteger PrivateKey, BigInteger PublicKey)[] CreateKeyPairs(int ringSize)
+        {
+            (BigInteger PrivateKey, BigInteger PublicKey)[] keyPairs = new (BigInteger PrivateKey, BigInteger PublicKey)[ringSize];
 
             for (int i = 0; i < ringSize; i++)
             {
@@ -138,6 +187,13 @@ namespace RingSignature.Tests
             }
 
             return keyPairs;
+        }
+
+        private static byte[] CreateMessage(int length = 100)
+        {
+            byte[] message = new byte[length];
+            RandomNumberGenerator.Fill(message);
+            return message;
         }
     }
 }

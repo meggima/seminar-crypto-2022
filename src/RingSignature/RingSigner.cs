@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace RingSignature;
 
-public class RingSigner
+public class RingSigner : IRingSigner
 {
     private readonly HashAlgorithm _hash1Function;
     private readonly HashAlgorithm _hash2Function;
@@ -31,43 +31,65 @@ public class RingSigner
         BigInteger yTilde = BigInteger.ModPow(h, signerPrivateKey, _primeOrderGroup.Prime);
         byte[] yTildeBytes = yTilde.ToByteArray(true, true);
 
-        BigInteger[] cVector = new BigInteger[publicKeys.Length];
         BigInteger[] sVector = new BigInteger[publicKeys.Length];
 
         BigInteger u = _random.GetRandomNumber(_primeOrderGroup.SubgroupSize);
 
         IList<byte[]> publicKeysBytes = publicKeys.Select(p => p.ToByteArray(true, true)).ToList();
 
-        cVector[(signerPublicKeyIndex + 1) % publicKeys.Length] = Hash1(
+        BigInteger currentC = Hash1(
             publicKeysBytes,
             yTildeBytes,
             message,
             BigInteger.ModPow(_primeOrderGroup.Generator, u, _primeOrderGroup.Prime).ToByteArray(true, true),
             BigInteger.ModPow(h, u, _primeOrderGroup.Prime).ToByteArray(true, true));
 
+        BigInteger zeroC = BigInteger.Zero;
+        BigInteger signerC = BigInteger.Zero;
+
+        if ((signerPublicKeyIndex + 1) % publicKeys.Length == 0)
+        {
+            zeroC = currentC;
+        }
+
+        if ((signerPublicKeyIndex + 1) % publicKeys.Length == signerPublicKeyIndex)
+        {
+            signerC = currentC;
+        }
+
         for (int i = (signerPublicKeyIndex + 1) % publicKeys.Length; i != signerPublicKeyIndex; i = (i + 1) % publicKeys.Length)
         {
             sVector[i] = _random.GetRandomNumber(_primeOrderGroup.SubgroupSize);
 
-            BigInteger v1 = (BigInteger.ModPow(_primeOrderGroup.Generator, sVector[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], cVector[i], _primeOrderGroup.Prime))
+            BigInteger v1 = (BigInteger.ModPow(_primeOrderGroup.Generator, sVector[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], currentC, _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
 
-            BigInteger v2 = (BigInteger.ModPow(h, sVector[i], _primeOrderGroup.Prime) * BigInteger.ModPow(yTilde, cVector[i], _primeOrderGroup.Prime))
+            BigInteger v2 = (BigInteger.ModPow(h, sVector[i], _primeOrderGroup.Prime) * BigInteger.ModPow(yTilde, currentC, _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
 
-            cVector[(i + 1) % publicKeys.Length] = Hash1(
+            currentC = Hash1(
                 publicKeysBytes,
                 yTildeBytes,
                 message,
                 v1.ToByteArray(true, true),
                 v2.ToByteArray(true, true));
+
+            if ((i + 1) % publicKeys.Length == 0)
+            {
+                zeroC = currentC;
+            }
+
+            if ((i + 1) % publicKeys.Length == signerPublicKeyIndex)
+            {
+                signerC = currentC;
+            }
         }
 
-        BigInteger dividend = (u - signerPrivateKey * cVector[signerPublicKeyIndex]);
+        BigInteger dividend = (u - signerPrivateKey * signerC);
 
         sVector[signerPublicKeyIndex] = dividend >= 0 ? dividend % _primeOrderGroup.SubgroupSize : _primeOrderGroup.SubgroupSize + (dividend % _primeOrderGroup.SubgroupSize);
 
-        return new Signature(cVector[0], sVector, yTilde);
+        return new Signature(zeroC, sVector, yTilde);
     }
 
     public bool Verify(byte[] message, Signature signature, BigInteger[] publicKeys)
@@ -78,28 +100,26 @@ public class RingSigner
         BigInteger yTilde = signature.Y;
         byte[] yTildeBytes = yTilde.ToByteArray(true, true);
 
-        BigInteger[] zPrimeVector = new BigInteger[publicKeys.Length];
-        BigInteger[] zPrimePrimeVector = new BigInteger[publicKeys.Length];
-        BigInteger[] cVector = new BigInteger[publicKeys.Length];
-
-        cVector[0] = signature.C;
+        BigInteger zPrime = BigInteger.Zero;
+        BigInteger zPrimePrime = BigInteger.Zero;
+        BigInteger currentC = signature.C;
 
         for (int i = 0; i < publicKeys.Length; i++)
         {
-            zPrimeVector[i] = (BigInteger.ModPow(_primeOrderGroup.Generator, signature.S[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], cVector[i], _primeOrderGroup.Prime))
+            zPrime = (BigInteger.ModPow(_primeOrderGroup.Generator, signature.S[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], currentC, _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
 
-            zPrimePrimeVector[i] = (BigInteger.ModPow(h, signature.S[i], _primeOrderGroup.Prime) * BigInteger.ModPow(yTilde, cVector[i], _primeOrderGroup.Prime))
+            zPrimePrime = (BigInteger.ModPow(h, signature.S[i], _primeOrderGroup.Prime) * BigInteger.ModPow(yTilde, currentC, _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
 
             if (i < publicKeys.Length - 1)
             {
-                cVector[i + 1] = Hash1(
+                currentC = Hash1(
                     publicKeysBytes,
                     yTildeBytes,
                     message,
-                    zPrimeVector[i].ToByteArray(true, true),
-                    zPrimePrimeVector[i].ToByteArray(true, true));
+                    zPrime.ToByteArray(true, true),
+                    zPrimePrime.ToByteArray(true, true));
             }
         }
 
@@ -107,8 +127,8 @@ public class RingSigner
                     publicKeysBytes,
                     yTildeBytes,
                     message,
-                    zPrimeVector[publicKeys.Length - 1].ToByteArray(true, true),
-                    zPrimePrimeVector[publicKeys.Length - 1].ToByteArray(true, true));
+                    zPrime.ToByteArray(true, true),
+                    zPrimePrime.ToByteArray(true, true));
 
         return signature.C == hashed;
     }

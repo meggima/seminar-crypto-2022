@@ -1,0 +1,397 @@
+// Validating benchmarks:
+// ***** BenchmarkRunner: Start   *****
+// ***** Found 4 benchmark(s) in total *****
+// ***** Building 1 exe(s) in Parallel: Start   *****
+// start dotnet restore  /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true in C:\Users\eggim\Documents\University\Master\seminar-crypto-2022\test\RingSignature.Benchmarks\bin\Release\net6.0\f8e8f153-511a-4477-9485-6331c2132183
+// command took 1.52s and exited with 0
+// start dotnet build -c Release  --no-restore /p:UseSharedCompilation=false /p:BuildInParallel=false /m:1 /p:Deterministic=true /p:Optimize=true in C:\Users\eggim\Documents\University\Master\seminar-crypto-2022\test\RingSignature.Benchmarks\bin\Release\net6.0\f8e8f153-511a-4477-9485-6331c2132183
+// command took 2.71s and exited with 0
+// ***** Done, took 00:00:04 (4.33 sec)   *****
+// Found 4 benchmarks:
+//   RingSignerBenchmark.SignMessage: DefaultJob [RingSize=10]
+//   RingSignerBenchmark.VerifySignature: DefaultJob [RingSize=10]
+//   RingSignerBenchmark.SignMessage: DefaultJob [RingSize=100]
+//   RingSignerBenchmark.VerifySignature: DefaultJob [RingSize=100]
+
+// **************************
+// Benchmark: RingSignerBenchmark.SignMessage: DefaultJob [RingSize=10]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet "f8e8f153-511a-4477-9485-6331c2132183.dll" --benchmarkName "RingSignature.Benchmarks.RingSignerBenchmark.SignMessage(RingSize: 10)" --job "Default" --benchmarkId 0 in C:\Users\eggim\Documents\University\Master\seminar-crypto-2022\test\RingSignature.Benchmarks\bin\Release\net6.0\f8e8f153-511a-4477-9485-6331c2132183\bin\Release\net6.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+// GC=Concurrent Workstation
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 330500.00 ns, 330.5000 us/op
+WorkloadJitting  1: 1 op, 176176900.00 ns, 176.1769 ms/op
+
+WorkloadPilot    1: 2 op, 314796400.00 ns, 157.3982 ms/op
+WorkloadPilot    2: 3 op, 458620300.00 ns, 152.8734 ms/op
+WorkloadPilot    3: 4 op, 561768200.00 ns, 140.4420 ms/op
+
+WorkloadWarmup   1: 4 op, 579100700.00 ns, 144.7752 ms/op
+WorkloadWarmup   2: 4 op, 567602200.00 ns, 141.9006 ms/op
+WorkloadWarmup   3: 4 op, 554535600.00 ns, 138.6339 ms/op
+WorkloadWarmup   4: 4 op, 551956800.00 ns, 137.9892 ms/op
+WorkloadWarmup   5: 4 op, 568100200.00 ns, 142.0250 ms/op
+WorkloadWarmup   6: 4 op, 566126200.00 ns, 141.5316 ms/op
+WorkloadWarmup   7: 4 op, 562883000.00 ns, 140.7208 ms/op
+WorkloadWarmup   8: 4 op, 576414600.00 ns, 144.1036 ms/op
+WorkloadWarmup   9: 4 op, 573210700.00 ns, 143.3027 ms/op
+
+// BeforeActualRun
+WorkloadActual   1: 4 op, 606294400.00 ns, 151.5736 ms/op
+WorkloadActual   2: 4 op, 578479200.00 ns, 144.6198 ms/op
+WorkloadActual   3: 4 op, 553166200.00 ns, 138.2916 ms/op
+WorkloadActual   4: 4 op, 554563500.00 ns, 138.6409 ms/op
+WorkloadActual   5: 4 op, 556676200.00 ns, 139.1690 ms/op
+WorkloadActual   6: 4 op, 555473300.00 ns, 138.8683 ms/op
+WorkloadActual   7: 4 op, 554947400.00 ns, 138.7369 ms/op
+WorkloadActual   8: 4 op, 553740200.00 ns, 138.4350 ms/op
+WorkloadActual   9: 4 op, 558041100.00 ns, 139.5103 ms/op
+WorkloadActual  10: 4 op, 578086000.00 ns, 144.5215 ms/op
+WorkloadActual  11: 4 op, 561345800.00 ns, 140.3365 ms/op
+WorkloadActual  12: 4 op, 569919300.00 ns, 142.4798 ms/op
+WorkloadActual  13: 4 op, 588648500.00 ns, 147.1621 ms/op
+WorkloadActual  14: 4 op, 550616300.00 ns, 137.6541 ms/op
+WorkloadActual  15: 4 op, 570123700.00 ns, 142.5309 ms/op
+WorkloadActual  16: 4 op, 567649100.00 ns, 141.9123 ms/op
+WorkloadActual  17: 4 op, 551053600.00 ns, 137.7634 ms/op
+WorkloadActual  18: 4 op, 570594500.00 ns, 142.6486 ms/op
+
+// AfterActualRun
+WorkloadResult   1: 4 op, 578479200.00 ns, 144.6198 ms/op
+WorkloadResult   2: 4 op, 553166200.00 ns, 138.2916 ms/op
+WorkloadResult   3: 4 op, 554563500.00 ns, 138.6409 ms/op
+WorkloadResult   4: 4 op, 556676200.00 ns, 139.1690 ms/op
+WorkloadResult   5: 4 op, 555473300.00 ns, 138.8683 ms/op
+WorkloadResult   6: 4 op, 554947400.00 ns, 138.7369 ms/op
+WorkloadResult   7: 4 op, 553740200.00 ns, 138.4350 ms/op
+WorkloadResult   8: 4 op, 558041100.00 ns, 139.5103 ms/op
+WorkloadResult   9: 4 op, 578086000.00 ns, 144.5215 ms/op
+WorkloadResult  10: 4 op, 561345800.00 ns, 140.3365 ms/op
+WorkloadResult  11: 4 op, 569919300.00 ns, 142.4798 ms/op
+WorkloadResult  12: 4 op, 588648500.00 ns, 147.1621 ms/op
+WorkloadResult  13: 4 op, 550616300.00 ns, 137.6541 ms/op
+WorkloadResult  14: 4 op, 570123700.00 ns, 142.5309 ms/op
+WorkloadResult  15: 4 op, 567649100.00 ns, 141.9123 ms/op
+WorkloadResult  16: 4 op, 551053600.00 ns, 137.7634 ms/op
+WorkloadResult  17: 4 op, 570594500.00 ns, 142.6486 ms/op
+GC:  0 0 0 1017168 4
+Threading:  0 0 4
+
+// AfterAll
+// Benchmark Process 18068 has exited with code 0.
+
+Mean = 140.781 ms, StdErr = 0.685 ms (0.49%), N = 17, StdDev = 2.824 ms
+Min = 137.654 ms, Q1 = 138.641 ms, Median = 139.510 ms, Q3 = 142.531 ms, Max = 147.162 ms
+IQR = 3.890 ms, LowerFence = 132.806 ms, UpperFence = 148.366 ms
+ConfidenceInterval = [138.032 ms; 143.531 ms] (CI 99.9%), Margin = 2.750 ms (1.95% of Mean)
+Skewness = 0.7, Kurtosis = 2.23, MValue = 2
+
+// **************************
+// Benchmark: RingSignerBenchmark.VerifySignature: DefaultJob [RingSize=10]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet "f8e8f153-511a-4477-9485-6331c2132183.dll" --benchmarkName "RingSignature.Benchmarks.RingSignerBenchmark.VerifySignature(RingSize: 10)" --job "Default" --benchmarkId 1 in C:\Users\eggim\Documents\University\Master\seminar-crypto-2022\test\RingSignature.Benchmarks\bin\Release\net6.0\f8e8f153-511a-4477-9485-6331c2132183\bin\Release\net6.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+// GC=Concurrent Workstation
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 249200.00 ns, 249.2000 us/op
+WorkloadJitting  1: 1 op, 166336000.00 ns, 166.3360 ms/op
+
+WorkloadPilot    1: 2 op, 302432600.00 ns, 151.2163 ms/op
+WorkloadPilot    2: 3 op, 428423900.00 ns, 142.8080 ms/op
+WorkloadPilot    3: 4 op, 563141600.00 ns, 140.7854 ms/op
+
+WorkloadWarmup   1: 4 op, 585475000.00 ns, 146.3688 ms/op
+WorkloadWarmup   2: 4 op, 583175700.00 ns, 145.7939 ms/op
+WorkloadWarmup   3: 4 op, 566786600.00 ns, 141.6967 ms/op
+WorkloadWarmup   4: 4 op, 567454400.00 ns, 141.8636 ms/op
+WorkloadWarmup   5: 4 op, 597314600.00 ns, 149.3287 ms/op
+WorkloadWarmup   6: 4 op, 594037400.00 ns, 148.5094 ms/op
+WorkloadWarmup   7: 4 op, 559965200.00 ns, 139.9913 ms/op
+WorkloadWarmup   8: 4 op, 575855800.00 ns, 143.9640 ms/op
+WorkloadWarmup   9: 4 op, 581613200.00 ns, 145.4033 ms/op
+WorkloadWarmup  10: 4 op, 588354300.00 ns, 147.0886 ms/op
+WorkloadWarmup  11: 4 op, 561946600.00 ns, 140.4866 ms/op
+
+// BeforeActualRun
+WorkloadActual   1: 4 op, 579941000.00 ns, 144.9853 ms/op
+WorkloadActual   2: 4 op, 576863400.00 ns, 144.2158 ms/op
+WorkloadActual   3: 4 op, 609767700.00 ns, 152.4419 ms/op
+WorkloadActual   4: 4 op, 567206000.00 ns, 141.8015 ms/op
+WorkloadActual   5: 4 op, 572487000.00 ns, 143.1217 ms/op
+WorkloadActual   6: 4 op, 580866700.00 ns, 145.2167 ms/op
+WorkloadActual   7: 4 op, 551795700.00 ns, 137.9489 ms/op
+WorkloadActual   8: 4 op, 563574500.00 ns, 140.8936 ms/op
+WorkloadActual   9: 4 op, 574356800.00 ns, 143.5892 ms/op
+WorkloadActual  10: 4 op, 565001000.00 ns, 141.2502 ms/op
+WorkloadActual  11: 4 op, 570409000.00 ns, 142.6022 ms/op
+WorkloadActual  12: 4 op, 581433300.00 ns, 145.3583 ms/op
+WorkloadActual  13: 4 op, 582883700.00 ns, 145.7209 ms/op
+WorkloadActual  14: 4 op, 581963700.00 ns, 145.4909 ms/op
+WorkloadActual  15: 4 op, 561273900.00 ns, 140.3185 ms/op
+
+// AfterActualRun
+WorkloadResult   1: 4 op, 579941000.00 ns, 144.9853 ms/op
+WorkloadResult   2: 4 op, 576863400.00 ns, 144.2158 ms/op
+WorkloadResult   3: 4 op, 567206000.00 ns, 141.8015 ms/op
+WorkloadResult   4: 4 op, 572487000.00 ns, 143.1217 ms/op
+WorkloadResult   5: 4 op, 580866700.00 ns, 145.2167 ms/op
+WorkloadResult   6: 4 op, 551795700.00 ns, 137.9489 ms/op
+WorkloadResult   7: 4 op, 563574500.00 ns, 140.8936 ms/op
+WorkloadResult   8: 4 op, 574356800.00 ns, 143.5892 ms/op
+WorkloadResult   9: 4 op, 565001000.00 ns, 141.2502 ms/op
+WorkloadResult  10: 4 op, 570409000.00 ns, 142.6022 ms/op
+WorkloadResult  11: 4 op, 581433300.00 ns, 145.3583 ms/op
+WorkloadResult  12: 4 op, 582883700.00 ns, 145.7209 ms/op
+WorkloadResult  13: 4 op, 581963700.00 ns, 145.4909 ms/op
+WorkloadResult  14: 4 op, 561273900.00 ns, 140.3185 ms/op
+GC:  0 0 0 1041424 4
+Threading:  0 0 4
+
+// AfterAll
+// Benchmark Process 20680 has exited with code 0.
+
+Mean = 143.037 ms, StdErr = 0.627 ms (0.44%), N = 14, StdDev = 2.348 ms
+Min = 137.949 ms, Q1 = 141.388 ms, Median = 143.355 ms, Q3 = 145.159 ms, Max = 145.721 ms
+IQR = 3.771 ms, LowerFence = 135.732 ms, UpperFence = 150.815 ms
+ConfidenceInterval = [140.389 ms; 145.685 ms] (CI 99.9%), Margin = 2.648 ms (1.85% of Mean)
+Skewness = -0.57, Kurtosis = 2.15, MValue = 2
+
+// **************************
+// Benchmark: RingSignerBenchmark.SignMessage: DefaultJob [RingSize=100]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet "f8e8f153-511a-4477-9485-6331c2132183.dll" --benchmarkName "RingSignature.Benchmarks.RingSignerBenchmark.SignMessage(RingSize: 100)" --job "Default" --benchmarkId 2 in C:\Users\eggim\Documents\University\Master\seminar-crypto-2022\test\RingSignature.Benchmarks\bin\Release\net6.0\f8e8f153-511a-4477-9485-6331c2132183\bin\Release\net6.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+// GC=Concurrent Workstation
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 279900.00 ns, 279.9000 us/op
+WorkloadJitting  1: 1 op, 1446185400.00 ns, 1.4462 s/op
+
+WorkloadWarmup   1: 1 op, 1442883200.00 ns, 1.4429 s/op
+WorkloadWarmup   2: 1 op, 1378513700.00 ns, 1.3785 s/op
+WorkloadWarmup   3: 1 op, 1349371000.00 ns, 1.3494 s/op
+WorkloadWarmup   4: 1 op, 1386750300.00 ns, 1.3868 s/op
+WorkloadWarmup   5: 1 op, 1384240200.00 ns, 1.3842 s/op
+WorkloadWarmup   6: 1 op, 1420875600.00 ns, 1.4209 s/op
+WorkloadWarmup   7: 1 op, 1383970500.00 ns, 1.3840 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 1406194400.00 ns, 1.4062 s/op
+WorkloadActual   2: 1 op, 1363148900.00 ns, 1.3631 s/op
+WorkloadActual   3: 1 op, 1378515700.00 ns, 1.3785 s/op
+WorkloadActual   4: 1 op, 1380613900.00 ns, 1.3806 s/op
+WorkloadActual   5: 1 op, 1367687300.00 ns, 1.3677 s/op
+WorkloadActual   6: 1 op, 1376726200.00 ns, 1.3767 s/op
+WorkloadActual   7: 1 op, 1381280000.00 ns, 1.3813 s/op
+WorkloadActual   8: 1 op, 1405776800.00 ns, 1.4058 s/op
+WorkloadActual   9: 1 op, 1352732200.00 ns, 1.3527 s/op
+WorkloadActual  10: 1 op, 1390502600.00 ns, 1.3905 s/op
+WorkloadActual  11: 1 op, 1418995300.00 ns, 1.4190 s/op
+WorkloadActual  12: 1 op, 1410500300.00 ns, 1.4105 s/op
+WorkloadActual  13: 1 op, 1390625700.00 ns, 1.3906 s/op
+WorkloadActual  14: 1 op, 1421691300.00 ns, 1.4217 s/op
+WorkloadActual  15: 1 op, 1378547100.00 ns, 1.3785 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 1406194400.00 ns, 1.4062 s/op
+WorkloadResult   2: 1 op, 1363148900.00 ns, 1.3631 s/op
+WorkloadResult   3: 1 op, 1378515700.00 ns, 1.3785 s/op
+WorkloadResult   4: 1 op, 1380613900.00 ns, 1.3806 s/op
+WorkloadResult   5: 1 op, 1367687300.00 ns, 1.3677 s/op
+WorkloadResult   6: 1 op, 1376726200.00 ns, 1.3767 s/op
+WorkloadResult   7: 1 op, 1381280000.00 ns, 1.3813 s/op
+WorkloadResult   8: 1 op, 1405776800.00 ns, 1.4058 s/op
+WorkloadResult   9: 1 op, 1352732200.00 ns, 1.3527 s/op
+WorkloadResult  10: 1 op, 1390502600.00 ns, 1.3905 s/op
+WorkloadResult  11: 1 op, 1418995300.00 ns, 1.4190 s/op
+WorkloadResult  12: 1 op, 1410500300.00 ns, 1.4105 s/op
+WorkloadResult  13: 1 op, 1390625700.00 ns, 1.3906 s/op
+WorkloadResult  14: 1 op, 1421691300.00 ns, 1.4217 s/op
+WorkloadResult  15: 1 op, 1378547100.00 ns, 1.3785 s/op
+GC:  0 0 0 4834560 1
+Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 25200 has exited with code 0.
+
+Mean = 1.388 s, StdErr = 0.005 s (0.38%), N = 15, StdDev = 0.021 s
+Min = 1.353 s, Q1 = 1.378 s, Median = 1.381 s, Q3 = 1.406 s, Max = 1.422 s
+IQR = 0.028 s, LowerFence = 1.335 s, UpperFence = 1.449 s
+ConfidenceInterval = [1.366 s; 1.410 s] (CI 99.9%), Margin = 0.022 s (1.59% of Mean)
+Skewness = 0.12, Kurtosis = 1.78, MValue = 2
+
+// **************************
+// Benchmark: RingSignerBenchmark.VerifySignature: DefaultJob [RingSize=100]
+// *** Execute ***
+// Launch: 1 / 1
+// Execute: dotnet "f8e8f153-511a-4477-9485-6331c2132183.dll" --benchmarkName "RingSignature.Benchmarks.RingSignerBenchmark.VerifySignature(RingSize: 100)" --job "Default" --benchmarkId 3 in C:\Users\eggim\Documents\University\Master\seminar-crypto-2022\test\RingSignature.Benchmarks\bin\Release\net6.0\f8e8f153-511a-4477-9485-6331c2132183\bin\Release\net6.0
+// BeforeAnythingElse
+
+// Benchmark Process Environment Information:
+// Runtime=.NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+// GC=Concurrent Workstation
+// Job: DefaultJob
+
+OverheadJitting  1: 1 op, 242400.00 ns, 242.4000 us/op
+WorkloadJitting  1: 1 op, 1361777300.00 ns, 1.3618 s/op
+
+WorkloadWarmup   1: 1 op, 1400842400.00 ns, 1.4008 s/op
+WorkloadWarmup   2: 1 op, 1375097900.00 ns, 1.3751 s/op
+WorkloadWarmup   3: 1 op, 1390972100.00 ns, 1.3910 s/op
+WorkloadWarmup   4: 1 op, 1380441200.00 ns, 1.3804 s/op
+WorkloadWarmup   5: 1 op, 1406663500.00 ns, 1.4067 s/op
+WorkloadWarmup   6: 1 op, 1402657400.00 ns, 1.4027 s/op
+
+// BeforeActualRun
+WorkloadActual   1: 1 op, 1389856100.00 ns, 1.3899 s/op
+WorkloadActual   2: 1 op, 1359728900.00 ns, 1.3597 s/op
+WorkloadActual   3: 1 op, 1382688900.00 ns, 1.3827 s/op
+WorkloadActual   4: 1 op, 1379172500.00 ns, 1.3792 s/op
+WorkloadActual   5: 1 op, 1413240100.00 ns, 1.4132 s/op
+WorkloadActual   6: 1 op, 1381798800.00 ns, 1.3818 s/op
+WorkloadActual   7: 1 op, 1398491300.00 ns, 1.3985 s/op
+WorkloadActual   8: 1 op, 1359331100.00 ns, 1.3593 s/op
+WorkloadActual   9: 1 op, 1363354300.00 ns, 1.3634 s/op
+WorkloadActual  10: 1 op, 1374867700.00 ns, 1.3749 s/op
+WorkloadActual  11: 1 op, 1392710700.00 ns, 1.3927 s/op
+WorkloadActual  12: 1 op, 1391411500.00 ns, 1.3914 s/op
+WorkloadActual  13: 1 op, 1410614200.00 ns, 1.4106 s/op
+WorkloadActual  14: 1 op, 1360131000.00 ns, 1.3601 s/op
+WorkloadActual  15: 1 op, 1390864600.00 ns, 1.3909 s/op
+
+// AfterActualRun
+WorkloadResult   1: 1 op, 1389856100.00 ns, 1.3899 s/op
+WorkloadResult   2: 1 op, 1359728900.00 ns, 1.3597 s/op
+WorkloadResult   3: 1 op, 1382688900.00 ns, 1.3827 s/op
+WorkloadResult   4: 1 op, 1379172500.00 ns, 1.3792 s/op
+WorkloadResult   5: 1 op, 1413240100.00 ns, 1.4132 s/op
+WorkloadResult   6: 1 op, 1381798800.00 ns, 1.3818 s/op
+WorkloadResult   7: 1 op, 1398491300.00 ns, 1.3985 s/op
+WorkloadResult   8: 1 op, 1359331100.00 ns, 1.3593 s/op
+WorkloadResult   9: 1 op, 1363354300.00 ns, 1.3634 s/op
+WorkloadResult  10: 1 op, 1374867700.00 ns, 1.3749 s/op
+WorkloadResult  11: 1 op, 1392710700.00 ns, 1.3927 s/op
+WorkloadResult  12: 1 op, 1391411500.00 ns, 1.3914 s/op
+WorkloadResult  13: 1 op, 1410614200.00 ns, 1.4106 s/op
+WorkloadResult  14: 1 op, 1360131000.00 ns, 1.3601 s/op
+WorkloadResult  15: 1 op, 1390864600.00 ns, 1.3909 s/op
+GC:  0 0 0 4832432 1
+Threading:  0 0 1
+
+// AfterAll
+// Benchmark Process 25240 has exited with code 0.
+
+Mean = 1.383 s, StdErr = 0.005 s (0.33%), N = 15, StdDev = 0.017 s
+Min = 1.359 s, Q1 = 1.369 s, Median = 1.383 s, Q3 = 1.392 s, Max = 1.413 s
+IQR = 0.023 s, LowerFence = 1.335 s, UpperFence = 1.426 s
+ConfidenceInterval = [1.365 s; 1.402 s] (CI 99.9%), Margin = 0.019 s (1.35% of Mean)
+Skewness = 0.07, Kurtosis = 1.8, MValue = 2
+
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts\results\RingSignature.Benchmarks.RingSignerBenchmark-report.csv
+  BenchmarkDotNet.Artifacts\results\RingSignature.Benchmarks.RingSignerBenchmark-report-github.md
+  BenchmarkDotNet.Artifacts\results\RingSignature.Benchmarks.RingSignerBenchmark-report.html
+
+// * Detailed results *
+RingSignerBenchmark.SignMessage: DefaultJob [RingSize=10]
+Runtime = .NET 6.0.3 (6.0.322.12309), X64 RyuJIT; GC = Concurrent Workstation
+Mean = 140.781 ms, StdErr = 0.685 ms (0.49%), N = 17, StdDev = 2.824 ms
+Min = 137.654 ms, Q1 = 138.641 ms, Median = 139.510 ms, Q3 = 142.531 ms, Max = 147.162 ms
+IQR = 3.890 ms, LowerFence = 132.806 ms, UpperFence = 148.366 ms
+ConfidenceInterval = [138.032 ms; 143.531 ms] (CI 99.9%), Margin = 2.750 ms (1.95% of Mean)
+Skewness = 0.7, Kurtosis = 2.23, MValue = 2
+-------------------- Histogram --------------------
+[137.554 ms ; 140.437 ms) | @@@@@@@@@@
+[140.437 ms ; 144.707 ms) | @@@@@@
+[144.707 ms ; 148.603 ms) | @
+---------------------------------------------------
+
+RingSignerBenchmark.VerifySignature: DefaultJob [RingSize=10]
+Runtime = .NET 6.0.3 (6.0.322.12309), X64 RyuJIT; GC = Concurrent Workstation
+Mean = 143.037 ms, StdErr = 0.627 ms (0.44%), N = 14, StdDev = 2.348 ms
+Min = 137.949 ms, Q1 = 141.388 ms, Median = 143.355 ms, Q3 = 145.159 ms, Max = 145.721 ms
+IQR = 3.771 ms, LowerFence = 135.732 ms, UpperFence = 150.815 ms
+ConfidenceInterval = [140.389 ms; 145.685 ms] (CI 99.9%), Margin = 2.648 ms (1.85% of Mean)
+Skewness = -0.57, Kurtosis = 2.15, MValue = 2
+-------------------- Histogram --------------------
+[137.742 ms ; 146.102 ms) | @@@@@@@@@@@@@@
+---------------------------------------------------
+
+RingSignerBenchmark.SignMessage: DefaultJob [RingSize=100]
+Runtime = .NET 6.0.3 (6.0.322.12309), X64 RyuJIT; GC = Concurrent Workstation
+Mean = 1.388 s, StdErr = 0.005 s (0.38%), N = 15, StdDev = 0.021 s
+Min = 1.353 s, Q1 = 1.378 s, Median = 1.381 s, Q3 = 1.406 s, Max = 1.422 s
+IQR = 0.028 s, LowerFence = 1.335 s, UpperFence = 1.449 s
+ConfidenceInterval = [1.366 s; 1.410 s] (CI 99.9%), Margin = 0.022 s (1.59% of Mean)
+Skewness = 0.12, Kurtosis = 1.78, MValue = 2
+-------------------- Histogram --------------------
+[1.347 s ; 1.398 s) | @@@@@@@@@@
+[1.398 s ; 1.428 s) | @@@@@
+---------------------------------------------------
+
+RingSignerBenchmark.VerifySignature: DefaultJob [RingSize=100]
+Runtime = .NET 6.0.3 (6.0.322.12309), X64 RyuJIT; GC = Concurrent Workstation
+Mean = 1.383 s, StdErr = 0.005 s (0.33%), N = 15, StdDev = 0.017 s
+Min = 1.359 s, Q1 = 1.369 s, Median = 1.383 s, Q3 = 1.392 s, Max = 1.413 s
+IQR = 0.023 s, LowerFence = 1.335 s, UpperFence = 1.426 s
+ConfidenceInterval = [1.365 s; 1.402 s] (CI 99.9%), Margin = 0.019 s (1.35% of Mean)
+Skewness = 0.07, Kurtosis = 1.8, MValue = 2
+-------------------- Histogram --------------------
+[1.350 s ; 1.423 s) | @@@@@@@@@@@@@@@
+---------------------------------------------------
+
+// * Summary *
+
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.22000
+11th Gen Intel Core i7-11800H 2.30GHz, 1 CPU, 16 logical and 8 physical cores
+.NET SDK=6.0.201
+  [Host]     : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+  DefaultJob : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+
+
+|          Method | RingSize |       Mean |    Error |   StdDev | Allocated |
+|---------------- |--------- |-----------:|---------:|---------:|----------:|
+|     SignMessage |       10 |   140.8 ms |  2.75 ms |  2.82 ms |    248 KB |
+| VerifySignature |       10 |   143.0 ms |  2.65 ms |  2.35 ms |    254 KB |
+|     SignMessage |      100 | 1,388.2 ms | 22.02 ms | 20.60 ms |  4,721 KB |
+| VerifySignature |      100 | 1,383.2 ms | 18.70 ms | 17.49 ms |  4,719 KB |
+
+// * Hints *
+Outliers
+  RingSignerBenchmark.SignMessage: Default     -> 1 outlier  was  removed (151.57 ms)
+  RingSignerBenchmark.VerifySignature: Default -> 1 outlier  was  removed (152.44 ms)
+
+// * Legends *
+  RingSize  : Value of the 'RingSize' parameter
+  Mean      : Arithmetic mean of all measurements
+  Error     : Half of 99.9% confidence interval
+  StdDev    : Standard deviation of all measurements
+  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+  1 ms      : 1 Millisecond (0.001 sec)
+
+// * Diagnostic Output - MemoryDiagnoser *
+
+
+// ***** BenchmarkRunner: End *****
+// ** Remained 0 benchmark(s) to run **
+Run time: 00:01:43 (103.66 sec), executed benchmarks: 4
+
+Global total time: 00:01:48 (108.01 sec), executed benchmarks: 4
+// * Artifacts cleanup *
