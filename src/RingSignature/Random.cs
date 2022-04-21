@@ -20,8 +20,8 @@ public class Random : IRandom {
         return new BigInteger(bytes, true, true);
     }
 
-    public void Fill(byte[] bytes)
+    public void Fill(byte[] destination)
     {
-        _randomNumberGenerator.GetBytes(bytes);
+        _randomNumberGenerator.GetBytes(destination);
     }
 }

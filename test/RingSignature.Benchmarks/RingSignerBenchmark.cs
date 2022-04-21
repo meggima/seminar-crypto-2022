@@ -11,7 +11,7 @@ public class RingSignerBenchmark
     public int RingSize;
 
     private KeyPairGenerator? _keyPairGenerator;
-    private RingSigner? _ringSigner;
+    private LsagRingSigner? _ringSigner;
 
     (BigInteger privateKey, BigInteger publicKey)[]? _keyPairs;
     private byte[]? _message;
@@ -23,7 +23,7 @@ public class RingSignerBenchmark
         PrimeOrderGroup primeOrderGroup = WellKnownPrimeOrderGroups.RFC5114_2_3_256;
         Random random = new Random();
         _keyPairGenerator = new KeyPairGenerator(primeOrderGroup, random);
-        _ringSigner = new RingSigner(primeOrderGroup, random);
+        _ringSigner = new LsagRingSigner(primeOrderGroup, random);
 
         _keyPairs = CreateKeyPairs(RingSize);
         _message = new byte[100];
@@ -36,7 +36,7 @@ public class RingSignerBenchmark
         PrimeOrderGroup primeOrderGroup = WellKnownPrimeOrderGroups.RFC5114_2_3_256;
         Random random = new Random();
         _keyPairGenerator = new KeyPairGenerator(primeOrderGroup, random);
-        _ringSigner = new RingSigner(primeOrderGroup, random);
+        _ringSigner = new LsagRingSigner(primeOrderGroup, random);
 
         _keyPairs = CreateKeyPairs(RingSize);
         _message = new byte[100];

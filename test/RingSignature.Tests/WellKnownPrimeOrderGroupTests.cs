@@ -10,6 +10,9 @@ public class WellKnownPrimeOrderGroupTests
     [Fact]
     public void GroupShouldBeCorrect()
     {
+        // Test data are taken from RFC 5114
+        // https://datatracker.ietf.org/doc/html/rfc5114#appendix-A.3
+
         // Arrange
         BigInteger privateKey = BigInteger.Parse(
             ("0" +

@@ -5,13 +5,13 @@ using Xunit;
 
 namespace RingSignature.Tests
 {
-    public class RingSignerTest
+    public class LsagRingSignerTest
     {
         private readonly PrimeOrderGroup _primeOrderGroup;
         private readonly Random _random;
         private readonly KeyPairGenerator _keyPairGenerator;
 
-        public RingSignerTest()
+        public LsagRingSignerTest()
         {
             _primeOrderGroup = WellKnownPrimeOrderGroups.RFC5114_2_3_256;
             _random = new Random();
@@ -31,7 +31,7 @@ namespace RingSignature.Tests
 
             byte[] message = CreateMessage();
 
-            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+            LsagRingSigner ringSigner = new LsagRingSigner(_primeOrderGroup, _random);
 
             // Act
             Signature signature = ringSigner.Sign(message, publicKeys, keyPairs[0].PrivateKey, 0);
@@ -52,7 +52,7 @@ namespace RingSignature.Tests
 
             byte[] message = CreateMessage();
 
-            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+            LsagRingSigner ringSigner = new LsagRingSigner(_primeOrderGroup, _random);
 
             // Act
             Signature signature = ringSigner.Sign(message, keyPairs.Select(k => k.PublicKey).ToArray(), keyPairs[0].PrivateKey, 0);
@@ -76,7 +76,7 @@ namespace RingSignature.Tests
 
             byte[] message = CreateMessage();
 
-            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+            LsagRingSigner ringSigner = new LsagRingSigner(_primeOrderGroup, _random);
 
             // Act
             Signature signature = ringSigner.Sign(message, keyPairs.Select(k => k.PublicKey).ToArray(), keyPairs[0].PrivateKey, 0);
@@ -99,7 +99,7 @@ namespace RingSignature.Tests
             byte[] message1 = CreateMessage();
             byte[] message2 = CreateMessage();
 
-            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+            LsagRingSigner ringSigner = new LsagRingSigner(_primeOrderGroup, _random);
 
 
             Signature s1 = ringSigner.Sign(message1, publicKeys, keyPairs[0].PrivateKey, 0);
@@ -126,7 +126,7 @@ namespace RingSignature.Tests
             byte[] message1 = CreateMessage();
             byte[] message2 = CreateMessage();
 
-            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+            LsagRingSigner ringSigner = new LsagRingSigner(_primeOrderGroup, _random);
 
 
             Signature s1 = ringSigner.Sign(message1, publicKeys, keyPairs[0].PrivateKey, 0);
@@ -154,7 +154,7 @@ namespace RingSignature.Tests
 
             byte[] message1 = CreateMessage();
 
-            RingSigner ringSigner = new RingSigner(_primeOrderGroup, _random);
+            LsagRingSigner ringSigner = new LsagRingSigner(_primeOrderGroup, _random);
 
             BigInteger[] publicKeys1 = keyPairs.Select(k => k.PublicKey).ToArray();
             BigInteger[] publicKeys2 = keyPairs.Select(k => k.PublicKey)

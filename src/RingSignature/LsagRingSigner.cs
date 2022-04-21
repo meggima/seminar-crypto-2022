@@ -3,27 +3,32 @@ using System.Security.Cryptography;
 
 namespace RingSignature;
 
-public class RingSigner : IRingSigner
+/// <summary>
+///     Implements the Linkable Spontaneous Anonymous Group Signing Scheme as proposed in
+///     <see href="https://eprint.iacr.org/2004/027.pdf"/>.
+/// </summary>
+public class LsagRingSigner : IRingSigner
 {
     private readonly HashAlgorithm _hash1Function;
     private readonly HashAlgorithm _hash2Function;
     private readonly PrimeOrderGroup _primeOrderGroup;
     private readonly IRandom _random;
 
-    public RingSigner(PrimeOrderGroup primeOrderGroup, IRandom random)
+    /// <summary>
+    ///  Initialized an instance of <see cref="LsagRingSigner"/>.
+    /// </summary>
+    /// <param name="primeOrderGroup">The <see cref="PrimeOrderGroup"/> to use.</param>
+    /// <param name="random">The <see cref="IRandom"/> random number generator to use.</param>
+    public LsagRingSigner(PrimeOrderGroup primeOrderGroup, IRandom random)
     {
-        byte[] hash1Key = new byte[64];
-        byte[] hash2Key = new byte[64];
-
-        random.Fill(hash1Key);
-        random.Fill(hash2Key);
-
-        _hash1Function = new HMACSHA256(hash1Key);
-        _hash2Function = new HMACSHA256(hash2Key);
         _primeOrderGroup = primeOrderGroup;
         _random = random;
+
+        _hash1Function = InitHashFunction();
+        _hash2Function = InitHashFunction();
     }
 
+    /// <inheritdoc/>
     public Signature Sign(byte[] message, BigInteger[] publicKeys, BigInteger signerPrivateKey, int signerPublicKeyIndex)
     {
         BigInteger h = Hash2(publicKeys);
@@ -92,6 +97,7 @@ public class RingSigner : IRingSigner
         return new Signature(zeroC, sVector, yTilde);
     }
 
+    /// <inheritdoc/>
     public bool Verify(byte[] message, Signature signature, BigInteger[] publicKeys)
     {
         BigInteger h = Hash2(publicKeys);
@@ -133,6 +139,7 @@ public class RingSigner : IRingSigner
         return signature.C == hashed;
     }
 
+    /// <inheritdoc/>
     public bool SignedBySameSigner(Signature signature1, Signature signature2)
     {
         return signature1.Y == signature2.Y;
@@ -154,6 +161,13 @@ public class RingSigner : IRingSigner
         byte[] hash = _hash2Function.ComputeHash(bytes);
 
         return BigInteger.ModPow(_primeOrderGroup.Generator, new BigInteger(hash, true, true) % _primeOrderGroup.SubgroupSize, _primeOrderGroup.Prime);
+    }
+
+    private HashAlgorithm InitHashFunction()
+    {
+        byte[] hashKey = new byte[64];
+        _random.Fill(hashKey);
+        return new HMACSHA256(hashKey);
     }
 }
 

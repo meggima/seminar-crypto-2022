@@ -2,9 +2,13 @@
 
 public static class WellKnownPrimeOrderGroups
 {
+    /// <summary>
+    ///     Prime order group taken from RFC 5114.
+    ///     See <see href="https://datatracker.ietf.org/doc/html/rfc5114#section-2.3"/>.
+    /// </summary>
     public static PrimeOrderGroup RFC5114_2_3_256 = PrimeOrderGroup.FromHexParameters(
       primeHex:
-        "0" +
+        "0" + // Leading zero to treat as unsigned
         "87A8E61D B4B6663C FFBBD19C 65195999 8CEEF608 660DD0F2" +
         "5D2CEED4 435E3B00 E00DF8F1 D61957D4 FAF7DF45 61B2AA30" +
         "16C3D911 34096FAA 3BF4296D 830E9A7C 209E0C64 97517ABD" +
@@ -17,7 +21,7 @@ public static class WellKnownPrimeOrderGroups
         "75F26375 D7014103 A4B54330 C198AF12 6116D227 6E11715F" +
         "693877FA D7EF09CA DB094AE9 1E1A1597",
       generatorHex:
-        "0" +
+        "0" + // Leading zero to treat as unsigned
         "3FB32C9B 73134D0B 2E775066 60EDBD48 4CA7B18F 21EF2054" +
         "07F4793A 1A0BA125 10DBC150 77BE463F FF4FED4A AC0BB555" +
         "BE3A6C1B 0C6B47B1 BC3773BF 7E8C6F62 901228F8 C28CBB18" +
@@ -30,7 +34,7 @@ public static class WellKnownPrimeOrderGroups
         "184B523D 1DB246C3 2F630784 90F00EF8 D647D148 D4795451" +
         "5E2327CF EF98C582 664B4C0F 6CC41659",
       subgroupSizeHex:
-        "0" +
+        "0" + // Leading zero to treat as unsigned
         "8CF83642 A709A097 B4479976 40129DA2 99B1A47D 1EB3750B" +
         "A308B0FE 64F5FBD3");
 }

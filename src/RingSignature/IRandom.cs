@@ -4,6 +4,6 @@ namespace RingSignature;
 
 public interface IRandom
 {
-    BigInteger GetRandomNumber(BigInteger bytes);
-    void Fill(byte[] hash1Key);
+    BigInteger GetRandomNumber(BigInteger max);
+    void Fill(byte[] destination);
 }
