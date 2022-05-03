@@ -103,19 +103,19 @@ public class LsagRingSigner : IRingSigner
         BigInteger h = Hash2(publicKeys);
 
         IList<byte[]> publicKeysBytes = publicKeys.Select(p => p.ToByteArray(true, true)).ToList();
-        BigInteger yTilde = signature.Y;
+        BigInteger yTilde = signature.YTilda;
         byte[] yTildeBytes = yTilde.ToByteArray(true, true);
 
         BigInteger zPrime = BigInteger.Zero;
         BigInteger zPrimePrime = BigInteger.Zero;
-        BigInteger currentC = signature.C;
+        BigInteger currentC = signature.InitialChallenge;
 
         for (int i = 0; i < publicKeys.Length; i++)
         {
-            zPrime = (BigInteger.ModPow(_primeOrderGroup.Generator, signature.S[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], currentC, _primeOrderGroup.Prime))
+            zPrime = (BigInteger.ModPow(_primeOrderGroup.Generator, signature.Nonces[i], _primeOrderGroup.Prime) * BigInteger.ModPow(publicKeys[i], currentC, _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
 
-            zPrimePrime = (BigInteger.ModPow(h, signature.S[i], _primeOrderGroup.Prime) * BigInteger.ModPow(yTilde, currentC, _primeOrderGroup.Prime))
+            zPrimePrime = (BigInteger.ModPow(h, signature.Nonces[i], _primeOrderGroup.Prime) * BigInteger.ModPow(yTilde, currentC, _primeOrderGroup.Prime))
                 % _primeOrderGroup.Prime;
 
             if (i < publicKeys.Length - 1)
@@ -136,13 +136,13 @@ public class LsagRingSigner : IRingSigner
                     zPrime.ToByteArray(true, true),
                     zPrimePrime.ToByteArray(true, true));
 
-        return signature.C == hashed;
+        return signature.InitialChallenge == hashed;
     }
 
     /// <inheritdoc/>
     public bool SignedBySameSigner(Signature signature1, Signature signature2)
     {
-        return signature1.Y == signature2.Y;
+        return signature1.YTilda == signature2.YTilda;
     }
 
     private BigInteger Hash1(IList<byte[]> publicKeysBytes, params byte[][] components)

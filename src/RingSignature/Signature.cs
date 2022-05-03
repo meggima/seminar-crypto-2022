@@ -2,5 +2,8 @@
 
 namespace RingSignature;
 
-public record Signature(BigInteger C, BigInteger[] S, BigInteger Y);
+public record Signature(
+    BigInteger InitialChallenge, 
+    BigInteger[] Nonces, 
+    BigInteger YTilda);
 
