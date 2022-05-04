@@ -2,6 +2,7 @@
 using System.Numerics;
 using System.Security.Cryptography;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace RingSignature.Tests
 {
@@ -10,12 +11,14 @@ namespace RingSignature.Tests
         private readonly PrimeOrderGroup _primeOrderGroup;
         private readonly Random _random;
         private readonly KeyPairGenerator _keyPairGenerator;
+        private readonly ITestOutputHelper _testOutputHelper;
 
-        public LsagRingSignerTest()
+        public LsagRingSignerTest(ITestOutputHelper testOutputHelper)
         {
             _primeOrderGroup = WellKnownPrimeOrderGroups.RFC5114_2_3_256;
             _random = new Random();
             _keyPairGenerator = new KeyPairGenerator(_primeOrderGroup, _random);
+            _testOutputHelper = testOutputHelper;
         }
 
         [Theory]
@@ -39,6 +42,7 @@ namespace RingSignature.Tests
 
             // Assert
             isValidSignature.Should().BeTrue();
+            _testOutputHelper.WriteLine("Signature size: {0}", signature.Size() + publicKeys.Sum(p => p.GetByteCount(true)));
         }
 
         [Fact]
